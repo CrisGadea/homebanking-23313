@@ -1,5 +1,10 @@
 package com.ar.bankingonline.models;
 
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+@Builder
+@NoArgsConstructor
 public class User {
 
     private Integer id;
