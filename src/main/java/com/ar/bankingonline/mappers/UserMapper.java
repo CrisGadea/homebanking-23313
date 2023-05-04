@@ -2,11 +2,15 @@ package com.ar.bankingonline.mappers;
 
 import com.ar.bankingonline.models.User;
 import com.ar.bankingonline.models.dtos.UserDto;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class UserMapper {
 
     // Los mappers me permiten enviar los datos desde una entidad
     //  hacia un dto o visceversa
+
+    // TODO: Aplicar Patron Builder
 
     public UserDto userToDtoMap(User user){
         UserDto dto = new UserDto();

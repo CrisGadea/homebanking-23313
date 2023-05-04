@@ -2,6 +2,7 @@ package com.ar.bankingonline.controllers;
 
 import com.ar.bankingonline.models.User;
 import com.ar.bankingonline.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController {
 
+    @Autowired
     private final UserService service;
 
     public UserController(UserService service){
@@ -25,19 +27,16 @@ public class UserController {
 
         // 1) Obtener la lista de todos los DTO user de la DB
         // Agregar el servicio a la implementación del método del controlador
-        //List<User> usuarios = service.getUsers();
+        List<User> usuarios = service.getUsers();
 
-        // 2) Mapear la respuesta del DTO a una lista de objetos User (Mapper)
+        // 2) Devolver la lista y enviar como respuesta
+        return ResponseEntity.status(200).body(usuarios);
+    }
 
-
-
-        List<User> usuarios = new ArrayList<>();
-        User user = new User("cris", "1234");
-        user.setId(1);
-        usuarios.add(user);
-
-        // 3) Devolver la lista y enviar como respuesta
-        return ResponseEntity.ok().body(usuarios);
+    // GET USER
+    @GetMapping(value = "/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(service.getUserById(id));
     }
 
     // POST
