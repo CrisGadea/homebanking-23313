@@ -7,7 +7,6 @@ import com.ar.bankingonline.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,25 +15,26 @@ public class UserService {
 
     // Declaro una instancia del repositorio con @Autowired y sin la anotación
     @Autowired
-    private final UserRepository repository;
+    private UserRepository repository;
 
     public UserService(UserRepository repository){
         this.repository = repository;
     }
 
+
     // Primero generar los metodos del CRUD
 
-    public List<User> getUsers(){
-        List<UserDto> usersDto = repository.findAll();
-        return usersDto.stream()
-                .map(UserMapper::dtoMapToUser)
+    public List<UserDto> getUsers(){
+        List<User> users = repository.findAll();
+        return users.stream()
+                .map(UserMapper::dtoMapToDto)
                 .toList();
     }
 
     // TODO: Refactor
-    public User getUserById(Integer id){
-        Optional<UserDto> userDto = repository.findById(id);
-        return UserMapper.dtoMapToUser(userDto.get());
+    public UserDto getUserById(Integer id){
+        Optional<User> user = repository.findById(id);
+        return UserMapper.dtoMapToDto(user.get());
     }
 
 

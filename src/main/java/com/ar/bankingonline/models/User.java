@@ -1,12 +1,16 @@
 package com.ar.bankingonline.models;
 
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
+@Entity
 @NoArgsConstructor
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String username;
     private String password;
 
