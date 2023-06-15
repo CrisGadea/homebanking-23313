@@ -1,7 +1,7 @@
-package com.ar.bankingonline.controllers;
+package com.ar.bankingonline.api.controllers;
 
-import com.ar.bankingonline.models.dtos.UserDto;
-import com.ar.bankingonline.services.UserService;
+import com.ar.bankingonline.api.controllers.dtos.UserDto;
+import com.ar.bankingonline.application.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,20 +43,21 @@ public class UserController {
 
     @PostMapping(value = "/users")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto){
-        // Redirija hacia el responsable de crear un usuario en la DB
-        return ResponseEntity.status(201).body(dto);
+        return ResponseEntity.status(201).body(service.createUser(dto));
     }
 
     // PUT
 
-    public void updateUser(UserDto user){
-
+    @PutMapping(value = "/users")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user){
+        return ResponseEntity.status(200).body(service.update(user));
     }
 
     // DELETE
-
-    public void deleteUser(Integer id){
-
+    @DeleteMapping(value = "/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.status(200).body("Se ha eliminado el usuario exitosamente");
     }
 
 }

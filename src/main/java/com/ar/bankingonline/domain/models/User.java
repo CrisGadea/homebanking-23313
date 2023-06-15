@@ -1,4 +1,4 @@
-package com.ar.bankingonline.models;
+package com.ar.bankingonline.domain.models;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;

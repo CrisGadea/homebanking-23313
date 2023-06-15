@@ -1,7 +1,7 @@
-package com.ar.bankingonline.mappers;
+package com.ar.bankingonline.api.controllers.mappers;
 
-import com.ar.bankingonline.models.User;
-import com.ar.bankingonline.models.dtos.UserDto;
+import com.ar.bankingonline.domain.models.User;
+import com.ar.bankingonline.api.controllers.dtos.UserDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -16,17 +16,14 @@ public class UserMapper {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
-        user.setId(dto.getId());
-
         return user;
     }
 
-    public UserDto dtoMapToDto(User user){
+    public UserDto userMapToDto(User user){
         UserDto dto = new UserDto();
-        user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
-        user.setId(dto.getId());
-
+        dto.setUsername(user.getUsername());
+        dto.setPassword(user.getPassword());
+        dto.setId(user.getId());
         return dto;
     }
 
