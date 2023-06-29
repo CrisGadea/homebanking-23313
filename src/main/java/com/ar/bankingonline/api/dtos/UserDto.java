@@ -1,4 +1,4 @@
-package com.ar.bankingonline.api.controllers.dtos;
+package com.ar.bankingonline.api.dtos;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ public class UserDto {
 
     public UserDto(){}
 
-    private Integer id;
+    private Long id;
 
     private String username;
 

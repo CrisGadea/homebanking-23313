@@ -1,7 +1,7 @@
-package com.ar.bankingonline.api.controllers.mappers;
+package com.ar.bankingonline.api.mappers;
 
 import com.ar.bankingonline.domain.models.User;
-import com.ar.bankingonline.api.controllers.dtos.UserDto;
+import com.ar.bankingonline.api.dtos.UserDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
