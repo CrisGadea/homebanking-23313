@@ -9,15 +9,17 @@ public class AccountMapper {
 
     public Account dtoToAccount(AccountDto dto){
         Account account = new Account();
-        account.setAmount(dto.getAmount());
+        account.setBalance(dto.getAmount());
         account.setNumber(dto.getNumber());
+        //account.setOwner(dto.getOwner());
         return account;
     }
 
     public AccountDto AccountToDto(Account account){
         AccountDto dto = new AccountDto();
-        dto.setAmount(account.getAmount());
+        dto.setAmount(account.getBalance());
         dto.setNumber(account.getNumber());
+        //dto.setOwner(account.getOwner());
         dto.setId(account.getId());
         return dto;
     }

@@ -1,5 +1,6 @@
 package com.ar.bankingonline.application.services;
 
+import com.ar.bankingonline.api.dtos.AccountDto;
 import com.ar.bankingonline.api.mappers.UserMapper;
 import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
 import com.ar.bankingonline.domain.models.User;
@@ -69,5 +70,13 @@ public class UserService {
         }
     }
 
+    // TODO: Generar la asociación de una primer cuenta al crear un User
+    // Agregar una cuenta al usuario
+    public UserDto addAccountToUser(AccountDto account, Long id){
+        // primero: buscar el usuario por id
+        // segundo: añadir la cuenta a la lista del usuario encontrado
+        // tercero: devolver el usuario con la cuenta agregada
+        return null;
+    }
 
 }

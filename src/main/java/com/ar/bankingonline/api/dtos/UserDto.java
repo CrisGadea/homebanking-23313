@@ -2,6 +2,8 @@ package com.ar.bankingonline.api.dtos;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 public class UserDto {
 
@@ -12,5 +14,7 @@ public class UserDto {
     private String username;
 
     private String password;
+
+    private List<AccountDto> accounts;
 
 }

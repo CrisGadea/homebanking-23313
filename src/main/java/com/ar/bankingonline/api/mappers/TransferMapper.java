@@ -1,8 +1,6 @@
 package com.ar.bankingonline.api.mappers;
 
-import com.ar.bankingonline.api.dtos.AccountDto;
 import com.ar.bankingonline.api.dtos.TransferDto;
-import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.Transfer;
 import lombok.experimental.UtilityClass;
 
@@ -18,7 +16,7 @@ public class TransferMapper {
         return transfer;
     }
 
-    public TransferDto TransferToDto(Transfer transfer){
+    public TransferDto transferToDto(Transfer transfer){
         TransferDto dto = new TransferDto();
         dto.setDate(transfer.getDate());
         dto.setOrigin(transfer.getOrigin());

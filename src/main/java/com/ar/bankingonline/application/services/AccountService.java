@@ -7,7 +7,9 @@ import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,7 @@ public class AccountService {
         this.repository = repository;
     }
 
+    @Transactional
     public List<AccountDto> getAccounts(){
         List<Account> accounts = repository.findAll();
         return accounts.stream()
@@ -28,15 +31,18 @@ public class AccountService {
                 .toList();
     }
 
+    @Transactional
     public AccountDto createAccount(AccountDto account){
         return AccountMapper.AccountToDto(repository.save(AccountMapper.dtoToAccount(account)));
     }
 
+    @Transactional
     public AccountDto getAccountById(Long id) {
         AccountDto account = AccountMapper.AccountToDto(repository.findById(id).get()); //O: .findById(id).orElse(null);
         return account;
     }
 
+    @Transactional
     public AccountDto updateAccount(Long id, AccountDto account){
 
         Optional<Account> accountCreated = repository.findById(id);
@@ -57,6 +63,7 @@ public class AccountService {
 
     }
 
+    @Transactional
     public String deleteAccount(Long id){
 
         if (repository.existsById(id)){
@@ -69,5 +76,25 @@ public class AccountService {
     }
 
     // Agregar métodos de ingreso y egreso de dinero y realizacion de transferencia
+    public BigDecimal withdraw(BigDecimal amount, Long idOrigin){
+        // primero: Obtenemos la cuenta
+        // segundo: debitamos el valor del amount con el amount de esa cuenta (validar si hay dinero disponible)
+        // tercero: devolvemos esa cantidad
+        return null;
+    }
+
+    public BigDecimal addAmountToAccount(BigDecimal amount, Long idOrigin){
+        // primero: Obtenemos la cuenta
+        // segundo: acreditamos el valor del amount con el amount de esa cuenta
+        // tercero: devolvemos esa cantidad
+        return null;
+    }
+
+
+    // TODO: Crear un método para poder buscar una cuenta por su número (number)
+    public Account getAccountByNumber(int number){
+        //return repository.getByNumber(number);
+        return null;
+    }
 
 }
