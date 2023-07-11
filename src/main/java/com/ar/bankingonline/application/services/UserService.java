@@ -3,8 +3,10 @@ package com.ar.bankingonline.application.services;
 import com.ar.bankingonline.api.dtos.AccountDto;
 import com.ar.bankingonline.api.mappers.UserMapper;
 import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
+import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.User;
 import com.ar.bankingonline.api.dtos.UserDto;
+import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
 import com.ar.bankingonline.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,12 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserService(UserRepository repository){
+    @Autowired
+    private AccountRepository accountRepository;
+    public UserService(UserRepository repository,AccountRepository accountRepository){
+
         this.repository = repository;
+        this.accountRepository=accountRepository;
     }
 
     // Primero generar los metodos del CRUD
@@ -32,7 +38,6 @@ public class UserService {
                 .toList();
     }
 
-    // TODO: Refactor
     public UserDto getUserById(Long id){
         return UserMapper.userMapToDto(repository.findById(id).get());
     }
@@ -50,6 +55,14 @@ public class UserService {
             User entity = userCreated.get();
 
             User accountUpdated = UserMapper.dtoToUser(user);
+            accountUpdated.setAccounts(entity.getAccounts());
+
+                if (user.getIdAccounts() != null) { // Verifica que la lista de cuentas no sea null
+                List < Account> accountList =accountRepository.findAllById(user.getIdAccounts());
+                List<Account> accountListFilter=accountList.stream().filter(e->!entity.getAccounts().contains(e)).toList();
+                accountUpdated.getAccounts().addAll(accountListFilter);
+                accountUpdated.setAccounts(accountList);
+            }
 
             accountUpdated.setId(entity.getId());
 

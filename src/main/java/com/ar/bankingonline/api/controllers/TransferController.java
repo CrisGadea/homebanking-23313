@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,23 +21,22 @@ public class TransferController {
         this.service = service;
     }
 
-    //TODO: Completar el CRUD del Controller
-
     @GetMapping(value = "/transfers")
     public ResponseEntity<List<TransferDto>> getTransfers(){
         List<TransferDto> transfers = service.getTransfers();
-        return ResponseEntity.status(200).body(transfers);
+        return ResponseEntity.status(HttpStatus.OK).body(transfers);
     }
 
     @GetMapping(value = "/transfers/{id}")
     public ResponseEntity<TransferDto> getTransferById(@PathVariable Long id){
         TransferDto transfer = service.getTransferById(id);
-        return ResponseEntity.status(200).body(transfer);
+        return ResponseEntity.status(HttpStatus.OK).body(transfer);
     }
 
+
     @PostMapping(value = "/transfers")
-    public ResponseEntity<TransferDto> createTransfer(@RequestBody TransferDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createTransfer(dto));
+    public ResponseEntity<TransferDto> performTransfer(@RequestBody TransferDto dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.performTransfer(dto));
     }
 
     @PutMapping(value = "/transfers/{id}")

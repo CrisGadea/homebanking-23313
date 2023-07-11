@@ -13,15 +13,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO: Este numero de cuenta debe ser único
-    private int number;
-
     private BigDecimal balance;
 
-    // TODO: Investigar quee suceudu con las relaciones bidireccionales y por qué motivo puede ocurrir
+    // TODO: Investigar que sucede con las relaciones bidireccionales y por qué motivo puede ocurrir
     //  un error de recursividad
     @ManyToOne
-    //@JoinColumn(name = "user_id")
     private User owner;
 
 }

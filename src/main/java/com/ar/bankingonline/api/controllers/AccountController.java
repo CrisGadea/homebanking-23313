@@ -29,13 +29,13 @@ public class AccountController {
         List<AccountDto> accounts = service.getAccounts();
 
         // 2) Devolver la lista y enviar como respuesta
-        return ResponseEntity.status(200).body(accounts);
+        return ResponseEntity.status(HttpStatus.OK).body(accounts);
     }
 
     @GetMapping(value = "/accounts/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id){
         AccountDto account = service.getAccountById(id);
-        return ResponseEntity.status(200).body(account);
+        return ResponseEntity.status(HttpStatus.OK).body(account);
     }
 
     @PostMapping(value = "/accounts")

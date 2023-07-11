@@ -10,9 +10,9 @@ public class TransferDto {
 
     private Long id;
 
-    private int origin;
+    private Long origin;
 
-    private int target;
+    private Long target;
 
     private Date date;
 

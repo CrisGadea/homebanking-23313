@@ -15,9 +15,9 @@ public class Transfer {
     @Column(name = "transfer_id")
     private Long id;
 
-    private int origin;
+    private Long origin;
 
-    private int target;
+    private Long target;
 
     private Date date;
 

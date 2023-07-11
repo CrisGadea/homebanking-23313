@@ -15,32 +15,27 @@ public class UserMapper {
     // Los mappers me permiten enviar los datos desde una entidad
     //  hacia un dto o visceversa
 
-    // TODO: Aplicar Patron Builder
 
     public User dtoToUser(UserDto dto){
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
-
-        List<Account> accounts = new ArrayList<>();
-        if (dto.getAccounts() != null) { // Verifica que la lista de cuentas no sea null
-            for (AccountDto accountDto : dto.getAccounts()) {
-                Account account = AccountMapper.dtoToAccount(accountDto);
-                //account.setOwner(user);
-                accounts.add(account);
-            }
-        }
-        user.setAccounts(accounts);
-
         return user;
     }
 
     public UserDto userMapToDto(User user){
         UserDto dto = new UserDto();
+        List<Long> accountsId=new ArrayList<>();
         dto.setUsername(user.getUsername());
         dto.setPassword(user.getPassword());
-        //TODO: modificar getAccounts para obtener mediante el Mapper lista de dtos
-        //dto.setAccounts(user.getAccounts());
+        if (user.getAccounts()!=null)
+            for (Account a:
+             user.getAccounts()) {
+            Long id= a.getId();
+            accountsId.add(id);
+        }
+
+        dto.setIdAccounts(accountsId);
         dto.setId(user.getId());
         return dto;
     }

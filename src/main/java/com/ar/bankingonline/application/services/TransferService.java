@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +30,6 @@ public class TransferService {
         this.repository = repository;
     }
 
-    // TODO: Completar el CRUD del Service
-
 
     public List<TransferDto> getTransfers(){
         List<Transfer> transfers = repository.findAll();
@@ -45,12 +42,6 @@ public class TransferService {
         Transfer transfer = repository.findById(id).orElseThrow(() ->
                 new TransferNotFoundException("Transfer not found with id: " + id));
         return TransferMapper.transferToDto(transfer);
-    }
-
-    public TransferDto createTransfer(TransferDto transferDto){
-        // TODO: Buscar un Account por number
-        Transfer transfer = TransferMapper.dtoToTransfer(transferDto);
-        return TransferMapper.transferToDto(repository.save(transfer));
     }
 
     public TransferDto updateTransfer(Long id, TransferDto transferDto){
@@ -69,30 +60,26 @@ public class TransferService {
         }
     }
 
-    // TODO: Llamar al método en el momento de la creación
     @Transactional
-    public TransferDto performTransfer(Long idOrigin, Long idDestination, BigDecimal amount) {
+    public TransferDto performTransfer(TransferDto dto) {
         // Comprobar si las cuentas de origen y destino existen
-        Account originAccount = accountRepository.findById(idOrigin)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + idOrigin));
-        Account destinationAccount = accountRepository.findById(idDestination)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + idDestination));
+        Account originAccount = accountRepository.findById(dto.getOrigin())
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getOrigin()));
+        Account destinationAccount = accountRepository.findById(dto.getTarget())
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getTarget()));
 
         // Comprobar si la cuenta de origen tiene fondos suficientes
-        if (originAccount.getBalance().compareTo(amount) < 0) {
-            throw new InsufficientFundsException("Insufficient funds in the account with id: " + idOrigin);
+        if (originAccount.getBalance().compareTo(dto.getAmount()) < 0) {
+            throw new InsufficientFundsException("Insufficient funds in the account with id: " + dto.getOrigin());
         }
 
         // Realizar la transferencia
-        originAccount.setBalance(originAccount.getBalance().subtract(amount));
-        destinationAccount.setBalance(destinationAccount.getBalance().add(amount));
+        originAccount.setBalance(originAccount.getBalance().subtract(dto.getAmount()));
+        destinationAccount.setBalance(destinationAccount.getBalance().add(dto.getAmount()));
 
         // Guardar las cuentas actualizadas
         accountRepository.save(originAccount);
         accountRepository.save(destinationAccount);
-
-        // TODO: Validar que en ambas cuentas se haya realizado la operación de manera correcta
-        // Es decir, si todo sale bien, se debeería guardar la transfer en la BD
 
         // Crear la transferencia y guardarla en la base de datos
         Transfer transfer = new Transfer();
@@ -100,9 +87,9 @@ public class TransferService {
         Date date = new Date();
         // Seteamos el objeto fecha actual en el transferDto
         transfer.setDate(date);
-        transfer.setOrigin(originAccount.getNumber());
-        transfer.setTarget(destinationAccount.getNumber());
-        transfer.setAmount(amount);
+        transfer.setOrigin(originAccount.getId());
+        transfer.setTarget(destinationAccount.getId());
+        transfer.setAmount(dto.getAmount());
         transfer = repository.save(transfer);
 
         // Devolver el DTO de la transferencia realizada
